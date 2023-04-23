@@ -1,19 +1,16 @@
 from flask import Blueprint, render_template
+from flask_login import login_required
 from werkzeug.exceptions import NotFound
 
 
 user = Blueprint("user", __name__, url_prefix="/users", static_folder="../static")
-USERS = {
-    1: {"name": "Taras", "email": "tkvitko@gmail.com"},
-    2: {"name": "Marina", "email": "tkvitko1@gmail.com"},
-    3: {"name": "Diana", "email": "tkvitko2@gmail.com"},
-    5: {"name": "Victoria", "email": "tkvitko3@gmail.com"}
-}
 
 
 @user.route("/")
+@login_required
 def user_list():
-    users = USERS
+    from ..models import User
+    users = User.query.all()
     return render_template(
         "users/list.html",
         users=users
@@ -21,18 +18,21 @@ def user_list():
 
 
 @user.route("/<int:pk>")
+@login_required
 def profile(pk: int):
-    if pk not in USERS.keys():
-        raise NotFound(f"User id: {pk}, not found")
+    from ..models import User
+    _user = User.query.filter_by(id=pk).one_or_none()
+    if _user is None:
+        raise NotFound("User id:{}, not found".format(pk))
     return render_template(
         "users/details.html",
-        user=USERS[pk]
+        user=_user
     )
 
 
 def get_user_name(pk: int):
-    if pk in USERS:
-        user_name = USERS[pk]["name"]
-    else:
+    from ..models import User
+    _user = User.query.filter_by(id=pk).one_or_none()
+    if _user is None:
         raise NotFound("User id:{}, not found".format(pk))
-    return user_name
+    return _user.email

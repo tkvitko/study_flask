@@ -4,9 +4,9 @@
     Users list
 {% endblock %}
 {% block body %}
-    {% for user_id, user_obj in users.items() %}
+    {% for user in users %}
         <ul>
-            <a href="{{ url_for('user.profile', pk=user_id) }}">{{ user_obj.name }}</a>
+            <a href="{{ url_for('user.profile', pk=user.id) }}">{{ user.email }}</a>
         </ul>
     {% endfor %}
 {% endblock %}

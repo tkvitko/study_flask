@@ -5,12 +5,12 @@ Article details
 {% endblock %}
 {% block body %}
     <h1>
-        {{ title }}
+        {{ article.title }}
     </h1>
     <br>
-    Author: {{ author }}
+    Author: {{ article.author.email }}
     <br>
     <br>
-    {{ text }}
+    {{ article.text }}
 
 {% endblock %}
