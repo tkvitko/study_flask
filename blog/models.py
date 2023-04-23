@@ -10,6 +10,7 @@ class User(db.Model, UserMixin):
 
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(255), unique=True)
+    nickname = db.Column(db.String(255), nullable=False, default="", server_default="")
     password = db.Column(db.String(255))
 
 
