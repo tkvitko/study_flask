@@ -2,7 +2,6 @@ from flask import Blueprint, render_template
 from flask_login import login_required
 from werkzeug.exceptions import NotFound
 
-
 user = Blueprint("user", __name__, url_prefix="/users", static_folder="../static")
 
 
@@ -17,16 +16,22 @@ def user_list():
     )
 
 
+def one_or_none():
+    pass
+
+
 @user.route("/<int:pk>")
 @login_required
 def profile(pk: int):
-    from ..models import User
+    from ..models import User, Article
     _user = User.query.filter_by(id=pk).one_or_none()
+    articles = Article.query.join(User).filter(User.id == pk).all()
     if _user is None:
         raise NotFound("User id:{}, not found".format(pk))
     return render_template(
         "users/details.html",
-        user=_user
+        user=_user,
+        articles=articles
     )
 
 

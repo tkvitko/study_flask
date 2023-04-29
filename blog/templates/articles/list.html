@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 
 {% block title %}
-    Articles
+Articles
 {% endblock %}
 {% block body %}
-    {% for article in articles %}
-        <ul>
-            <a href="{{ url_for('article.get_article', pk=article.id) }}">{{ article.title }}</a>
-        </ul>
-    {% endfor %}
+{% for article in articles %}
+<ul>
+    <a href="{{ url_for('article.get_article', pk=article.id) }}">{{ article.title }}</a>
+    <br>
+    <i>
+        (authored by <a href="{{ url_for('user.profile', pk=article.author_id) }}">{{ article.author.username }}</a>)
+    </i>
+</ul>
+{% endfor %}
 {% endblock %}
