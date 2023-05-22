@@ -4,9 +4,14 @@
 Users details
 {% endblock %}
 {% block body %}
-    <p>
-        username: {{ user.name }}
-        <br>
-        e-mail: {{ user.email }}
-    </p>
+<p>
+    username: {{ user.username }}
+    <br>
+    e-mail: {{ user.email }}
+</p>
+<b>Articles:</b><br>
+{% for article in articles %}
+<a href="{{ url_for('article.get_article', pk=article.id) }}"> {{ article.title }} </a>
+<br>
+{% endfor %}
 {% endblock %}
