@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template
+from sqlalchemy.orm import joinedload
 from werkzeug.exceptions import NotFound
 from flask_login import login_required
 
@@ -23,7 +24,8 @@ def article_list():
 def get_article(pk: int):
 
     from ..models import Article
-    article = Article.query.filter_by(id=pk).one_or_none()
+    # article = Article.query.filter_by(id=pk).one_or_none()
+    article = Article.query.filter_by(id=pk).options(joinedload(Article.tags)).one_or_none()
     if article is None:
         raise NotFound("Article id:{}, not found".format(pk))
     return render_template(

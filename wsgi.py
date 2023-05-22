@@ -28,3 +28,11 @@ def create_articles():
     db.session.add(Article(title='Cry In floor', text=text, author_id=1))
     db.session.add(Article(title='Crying floor', text=text, author_id=2))
     db.session.commit()
+
+
+@app.cli.command("create-tags", help="create tags")
+def create_tags():
+    from blog.models import Tag
+    for tag_name in ('tag1', 'tag2', 'tag3', 'tag4'):
+        db.session.add(Tag(name=tag_name))
+    db.session.commit()

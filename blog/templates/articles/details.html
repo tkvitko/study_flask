@@ -4,13 +4,20 @@
 Article details
 {% endblock %}
 {% block body %}
-    <h1>
-        {{ article.title }}
-    </h1>
-    <br>
-    Author: {{ article.author.email }}
-    <br>
-    <br>
-    {{ article.text }}
+<h1>
+    {{ article.title }}
+</h1>
+<br>
+Author: {{ article.author.email }}
+<br><br>
+{% if article.tags %}
+<div>
+    {% for tag in article.tags %}
+    <span class="badge rounded-pill bg-primary">{{ tag.name }}</span>
+    {% endfor %}
+</div>
+{% endif %}
+{{ article.text }}
+
 
 {% endblock %}
