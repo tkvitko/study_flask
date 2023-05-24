@@ -3,5 +3,6 @@
   "SECRET_KEY": "!$kh8$cz-z9q4@_430j_23-kw=y9*!#4v76vc!mp9c1*f)j+4z",
   "SQLALCHEMY_TRACK_MODIFICATION": false,
   "SQLALCHEMY_DATABASE_URI": "sqlite:///db.sqlite",
-  "WTF_CSRF_ENABLED": true
+  "WTF_CSRF_ENABLED": true,
+  "FLASK_ADMIN_SWATCH": "pulse"
 }
