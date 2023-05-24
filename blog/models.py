@@ -33,6 +33,14 @@ class User(db.Model, UserMixin):
         return f"<User #{self.id} {self.username!r}>"
 
 
+article_tag_association_table = db.Table(
+    "article_tag_association",
+    db.metadata,
+    db.Column("article_id", db.Integer, ForeignKey("articles.id"), nullable=False),
+    db.Column("tag_id", db.Integer, ForeignKey("tags.id"), nullable=False),
+)
+
+
 class Article(db.Model):
     __tablename__ = "articles"
 
@@ -41,3 +49,20 @@ class Article(db.Model):
     text = db.Column(db.String(1024))
     author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
     author: Mapped["User"] = relationship()
+    tags = relationship(
+        "Tag",
+        secondary=article_tag_association_table,
+        back_populates="articles",
+    )
+
+
+class Tag(db.Model):
+    __tablename__ = "tags"
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(32), nullable=False, default="", server_default="")
+    articles = relationship(
+        "Article",
+        secondary=article_tag_association_table,
+        back_populates="tags",
+    )
