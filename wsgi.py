@@ -13,8 +13,11 @@ def init_db():
 @app.cli.command("create-users", help="create users")
 def create_users():
     from blog.models import User
-    db.session.add(User(email="tkvitko@gmail.com", password=generate_password_hash("123456")))
-    db.session.add(User(email="tkvitko@ab-technology.ru", password=generate_password_hash("qwerty")))
+    db.session.add(
+        User(username="tkvitko1", email="tkvitko@gmail.com", password=generate_password_hash("123456"), is_staff=True))
+    db.session.add(
+        User(username="tkvitko2", email="tkvitko@ab-technology.ru", password=generate_password_hash("qwerty"),
+             is_staff=True))
     db.session.commit()
 
 

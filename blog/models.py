@@ -32,6 +32,9 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f"<User #{self.id} {self.username!r}>"
 
+    def __str__(self):
+        return f'{self.user.email} ({self.user.id})'
+
 
 article_tag_association_table = db.Table(
     "article_tag_association",
@@ -55,6 +58,9 @@ class Article(db.Model):
         back_populates="articles",
     )
 
+    def __str__(self):
+        return self.title
+
 
 class Tag(db.Model):
     __tablename__ = "tags"
@@ -66,3 +72,6 @@ class Tag(db.Model):
         secondary=article_tag_association_table,
         back_populates="tags",
     )
+
+    def __str__(self):
+        return self.name
