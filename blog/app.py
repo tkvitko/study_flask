@@ -11,6 +11,7 @@ from blog.users.views import user
 from blog.index.views import index
 from blog.models import User
 from blog import admin as admin_for_register
+from blog.api import init_api
 
 
 CONFIG_PATH = os.getenv("CONFIG_PATH", os.path.join('..', 'dev_config.json'))
@@ -46,4 +47,5 @@ def create_app() -> Flask:
     migrate = Migrate(app, db, compare_type=True)
     register_extensions(app)
     register_blueprints(app)
+    api = init_api(app)
     return app
