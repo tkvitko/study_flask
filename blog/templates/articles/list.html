@@ -4,6 +4,10 @@
 Articles
 {% endblock %}
 {% block body %}
+<div>
+    Atricles count: {{ articles_count }}
+</div>
+<br>
 {% for article in articles %}
 <ul>
     <a href="{{ url_for('article.get_article', pk=article.id) }}">{{ article.title }}</a>
