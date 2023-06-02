@@ -1,7 +1,8 @@
 import flask_bcrypt
 from flask_login import UserMixin
 from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship
+# from sqlalchemy.orm import Mapped, mapped_column, relationship
+from sqlalchemy.orm import relationship
 
 from .app import db
 
@@ -17,6 +18,7 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), unique=True)
     nickname = db.Column(db.String(255), nullable=False, default="", server_default="")
     _password = db.Column(db.LargeBinary, nullable=True)
+    articles = relationship("Article", back_populates="author")
 
     @property
     def password(self):
@@ -50,8 +52,10 @@ class Article(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(64))
     text = db.Column(db.String(1024))
-    author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
-    author: Mapped["User"] = relationship()
+    # author_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    # author: Mapped["User"] = relationship()
+    author_id = db.Column(db.Integer, ForeignKey("users.id"))
+    author = relationship("User", back_populates="articles")
     tags = relationship(
         "Tag",
         secondary=article_tag_association_table,

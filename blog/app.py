@@ -1,6 +1,7 @@
 import os
 import json
 
+from combojsonapi.event import EventPlugin
 from flask_migrate import Migrate
 from flask import Flask
 
@@ -11,6 +12,7 @@ from blog.users.views import user
 from blog.index.views import index
 from blog.models import User
 from blog import admin as admin_for_register
+from blog.api import init_api
 
 
 CONFIG_PATH = os.getenv("CONFIG_PATH", os.path.join('..', 'dev_config.json'))
@@ -42,8 +44,10 @@ def register_blueprints(app: Flask):
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    app.config.from_file(CONFIG_PATH, json.load)
+    app.config.from_json(CONFIG_PATH, json.load)
     migrate = Migrate(app, db, compare_type=True)
     register_extensions(app)
     register_blueprints(app)
+    api = init_api(app)
+
     return app
