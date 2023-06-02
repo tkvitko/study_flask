@@ -1,6 +1,7 @@
 import os
 import json
 
+from combojsonapi.event import EventPlugin
 from flask_migrate import Migrate
 from flask import Flask
 
@@ -43,9 +44,10 @@ def register_blueprints(app: Flask):
 
 def create_app() -> Flask:
     app = Flask(__name__)
-    app.config.from_file(CONFIG_PATH, json.load)
+    app.config.from_json(CONFIG_PATH, json.load)
     migrate = Migrate(app, db, compare_type=True)
     register_extensions(app)
     register_blueprints(app)
     api = init_api(app)
+
     return app

@@ -1,3 +1,5 @@
+import requests
+
 from flask import Blueprint, render_template
 from sqlalchemy.orm import joinedload
 from werkzeug.exceptions import NotFound
@@ -13,9 +15,13 @@ article = Blueprint("article", __name__, url_prefix="/articles", static_folder="
 def article_list():
     from ..models import Article
     articles = Article.query.all()
+
+    articles_count = requests.get('http://127.0.0.1/api/articles/event_get_count').text
+
     return render_template(
         "articles/list.html",
-        articles=articles
+        articles=articles,
+        articles_count=articles_count
     )
 
 
